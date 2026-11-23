@@ -28,6 +28,8 @@ jobs:
             . venv/bin/activate
             pytest --cov=src --cov-report=xml
 
+      - sonarcloud/scan
+
 workflows:
   build-test-workflow:
     jobs:
