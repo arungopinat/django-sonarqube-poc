@@ -1,0 +1,40 @@
+version: 2.1
+
+jobs:
+  build-and-test:
+    docker:
+      - image: cimg/python:3.12
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install dependencies
+          command: |
+            python -m venv venv
+            . venv/bin/activate
+            pip install --upgrade pip
+            pip install -r requirements.txt
+
+      - run:
+          name: Django system check
+          command: |
+            . venv/bin/activate
+            python manage.py check
+
+      - run:
+          name: Run tests with coverage
+          command: |
+            . venv/bin/activate
+            coverage run -m pytest
+            coverage xml
+            coverage report
+
+workflows:
+  build-test-workflow:
+    jobs:
+      - build-and-test:
+          filters:
+            branches:
+              only:
+                - master
