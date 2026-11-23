@@ -20,7 +20,7 @@ jobs:
           name: Django system check
           command: |
             . venv/bin/activate
-            python manage.py check
+            python src/manage.py check
 
       - run:
           name: Run tests with coverage
